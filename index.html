@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+        --color-clifford: #da373d;
+      }
+    </style>
+    <title class="italics">User Form</title>
+</head>
+
+<body class="bg-gray-100 text-gray-900 font-sans flex flex-col  items-center justify-center">
+    <h1 class="text-3xl font-bold text-center my-8">User Form</h1>
+    <form action="user.php" method="post" class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <div class="flex flex-wrap justify-stretch gap-4">
+            <!-- Name -->
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" required
+                    class="mt-1 tracking-wide ps-2 py-2 block w-full border-gray-300 rounded shadow-sm focus:border-clifford focus:ring focus:ring-clifford focus:ring-opacity-50" />
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 tracking-wide ps-2 py-2 block w-full border-gray-300 rounded shadow-sm focus:border-clifford focus:ring focus:ring-clifford focus:ring-opacity-50">
+            </div>
+
+            <!-- Mobile Number -->
+            <div class="mb-4">
+                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile No</label>
+                <input type="mobile" id="mobile" name="mobile" max="10" min="10" maxlength="10" minlength="10" required
+                    class="mt-1 tracking-wide ps-2 py-2 block w-full border-gray-300 rounded shadow-sm focus:border-clifford focus:ring focus:ring-clifford focus:ring-opacity-50" />
+            </div>
+
+            <!-- DOB -->
+            <div class="mb-4">
+                <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <input type="date" id="dob" name="dob" required
+                    class="mt-1 tracking-wide ps-2 py-2 ps-2 block max-w-md w-full border-gray-300 rounded shadow-sm focus:border-clifford focus:ring focus:ring-clifford focus:ring-opacity-50" />
+            </div>
+
+        </div>
+
+        <!-- Gender -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-900 mb-1.5">Choose Gender</label>
+            <div class="flex items-center space-x-6">
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="gender" value="male" class="mr-2" required />
+                    <span class="text-gray-700">Male</span>
+                </label>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="gender" value="female" class="mr-2" required />
+                    <span class="text-gray-700">Female</span>
+                </label>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="gender" value="other" class="mr-2" required />
+                    <span class="text-gray-700">Other</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="mb-4">
+            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+            <textarea id="address" name="address" rows="3" required
+                class="mt-1 tracking-wide ps-2 block w-full border-gray-300 rounded shadow-sm focus:border-clifford focus:ring focus:ring-clifford focus:ring-opacity-50"></textarea>
+        </div>
+
+        <!-- Emp Type -->
+        <div class="mb-4">
+            <label for="emp-type" class="block text-sm font-medium text-gray-700">Employee Type</label>
+            <select id="emp-type" name="emp-type" required
+                class="mt-1 tracking-wide py-2 block w-full border-gray-300 rounded shadow-sm focus:border-clifford focus:ring focus:ring-clifford focus:ring-opacity-50 ps-1">
+                <option value="" selected>Select a Type</option>
+                <option value="regular">Regular</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+            </select>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="my-5">
+            <label class="inline-flex items-center">
+                <input type="checkbox" name="terms" required
+                    class="form-checkbox h-4 w-4 text-clifford focus:ring-clifford focus:ring-opacity-50" />
+                <span class="ml-2 text-sm text-gray-700">I agree to the <a href="#"
+                        class="text-clifford hover:underline">Terms and Conditions</a></span>
+            </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+            class="w-full bg-clifford text-white font-bold py-2 px-4 rounded hover:bg-red-600 transition duration-200 cursor-pointer">Submit</button>
+    </form>
+
+    <section class="max-w-lg mt-8 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Form Data</h2>
+        <p class="text-gray-700">This section will display the submitted form data.</p>
+        <div id="form-data" class="mt-4">
+            <!-- Form data will be displayed here after submission -->
+        </div>
+        <button id="clear-data"
+            class="mt-4 bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-300 transition duration-200 cursor-pointer">Clear
+            Data</button>
+    </section>
+
+    <footer class="my-8 text-center text-gray-600">
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const dataDisplay = document.getElementById('form-data');
+            dataDisplay.innerHTML = '';
+            formData.forEach((value, key) => {
+                const p = document.createElement('p');
+                p.textContent = `${key}: ${value}`;
+                dataDisplay.appendChild(p);
+            });
+            event.target.reset(); // Reset the form after submission
+        });
+
+        document.getElementById('clear-data').addEventListener('click', function () {
+            document.getElementById('form-data').innerHTML = '';
+        });
+    </script>
+</body>
+
+</html>
